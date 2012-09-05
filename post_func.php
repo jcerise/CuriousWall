@@ -41,7 +41,7 @@ function post_get($db, $xtopic, $xbegin)
     $i = $begin;
     while($row = $query->fetch(PDO::FETCH_ASSOC))
     {
-      echo '<div class="post" name="'.$row['post_id'].'">'
+      echo '<div class="post syntaxhighlighter" name="'.$row['post_id'].'">'
       .'<span class="tcore">'.($i+1)."</span>";
       if (($i == $begin) && ($i != 0)) {
         echo '<span class="tcore tup hover">▲</span>';
@@ -50,7 +50,7 @@ function post_get($db, $xtopic, $xbegin)
         echo '<span class="tcore tdown hover">▼</span>';
       }
       echo "<span class='username' style='font-weight: bold;'>"; theusername($row['user_name'],$row['permissions']); echo ":</span> ";
-      echo $row['post_text'].'<div class="postbuttons">';if ((isset($_SESSION['permissions']) && ($_SESSION['permissions'] == 1))) { echo'<div id="'.$row['post_id'].'" class="delete postdelete hover" title="delete">⨯</div>';}echo'</div></div>';
+      echo '<div class="post-text">'.$row['post_text'].'</div>'.'<div class="postbuttons">';if ((isset($_SESSION['permissions']) && ($_SESSION['permissions'] == 1))) { echo'<div id="'.$row['post_id'].'" class="delete postdelete hover" title="delete">⨯</div>';}echo'</div></div>';
       $i++;
     }
     if ($isitlockeddisplaymessage == true) {

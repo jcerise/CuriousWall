@@ -32,20 +32,20 @@ else if (($_POST['method'] == 'new') && is_numeric($_POST['topic']))
     die('Fill in content.');
   }
   $text_len = mb_strlen($_POST['text'],'UTF8');
-  if (($text_len < 1) || ($text_len > 5000))
+  if (($text_len < 1) || ($text_len > 10000))
   {
     die('Your post can\'t be longer than 5000 characters. Right now your post has '.$text_len .'.');
   }
 
-/*  if (($_POST['stick'] == 'ystick')&&($_POST['topic'] < 0)){if ((!isset($_SESSION['permissions']) || ($_SESSION['permissions'] == 0))) {die('You need to be a moderator to make a sticky topic!');} }//&& ((!isset($_SESSION['permissions']) || ($_SESSION['permissions'] == 0))) { }//die('You need to be a moderator to make a sticky topic!');}
-  if (($_POST['lock'] == 'ylock')&&($_POST['topic'] < 0)){if ((!isset($_SESSION['permissions']) || ($_SESSION['permissions'] == 0))) {die('You need to be a moderator to lock topics!');} }*/
+  if (($_POST['stick'] == 'ystick')&&($_POST['topic'] < 0)){if ((!isset($_SESSION['permissions']) || ($_SESSION['permissions'] == 0))) {die('You need to be a moderator to make a sticky topic!');} }//&& ((!isset($_SESSION['permissions']) || ($_SESSION['permissions'] == 0))) { }//die('You need to be a moderator to make a sticky topic!');}
+  if (($_POST['lock'] == 'ylock')&&($_POST['topic'] < 0)){if ((!isset($_SESSION['permissions']) || ($_SESSION['permissions'] == 0))) {die('You need to be a moderator to lock topics!');} }
 
   if ($_POST['stick'] || $_POST['lock']) {
      if  ((!isset($_SESSION['permissions']) || ($_SESSION['permissions'] == 0))) {die('You need to be a moderator to play with sticky or locked topics!');}
      else {}
   }
 
-  $_POST['text'] = nl2br(htmlspecialchars($_POST['text']));
+  //$_POST['text'] = nl2br(htmlspecialchars($_POST['text']));
   $_POST['text'] = str_replace("  ", "&nbsp;&nbsp;", $_POST['text']);
 
   if ($_POST['stick'] == 'ystick') {$_POST['stick'] = '1';} else {$_POST['stick'] = '0';}

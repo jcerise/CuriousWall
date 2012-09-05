@@ -1,6 +1,5 @@
 <?php
-if ($_GET['_escaped_fragment_']){require_once 'noscript.php';die;}
-else {require_once 'header.php';}
+require_once 'header.php';
 //die();
 ?>
 <div id="left_container">
@@ -9,6 +8,7 @@ else {require_once 'header.php';}
     <div class="button" id="prepare_post_button" style="float:right; margin-top:14px; margin-right:16px"><i class="icon-pencil"></i>&nbsp;Create</div>
     <div id="nav">
     </div>
+
     <div id="user_panel" style="margin-top:12px;margin-bottom:8px">
     <?php
     if ((isset($_SESSION['user_name'])) && (isset($_SESSION['permissions']))) {

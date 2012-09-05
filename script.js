@@ -166,7 +166,7 @@ if (typeof $IS_INDEX_PHP != 'undefined')
                 $.post('delete.php', {method:'post', id:clickedreply, postortopic:'post', parenttopicid:$this_topic}, function(msg){alert(msg);});//, function(msg)
 		goTopic($this_topic,(clickedreply-5)); //scrolls the person to the middle of where the post was
 		}
-	});/**/
+	});
 
   }
   function updateNav(msg) {
@@ -234,10 +234,10 @@ if (typeof $IS_INDEX_PHP != 'undefined')
     });        
   }
 
-  function delete() {
+  /*function delete() {
   var reallydelete = confirm('Are you sure you want to delete that post/topic? If you do, then you will not be able to recover the post, and if you delete a topic, all of the accompanying posts will disappear.');
 
-  }
+  }*/
   
   function topicShift($dir) {
     var $begin = 0;
