@@ -53,9 +53,13 @@ function post_get($db, $xtopic, $xbegin)
       echo '<div class="post-text">'.$row['post_text'].'</div>'.'<div class="postbuttons">';if ((isset($_SESSION['permissions']) && ($_SESSION['permissions'] == 1))) { echo'<div id="'.$row['post_id'].'" class="delete postdelete hover" title="delete">⨯</div>';}echo'</div></div>';
       $i++;
     }
+    //Do not display the new post box if the post is locked. Makes no sense to show it a user cant post...
     if ($isitlockeddisplaymessage == true) {
       echo "<div id='lockedmessage'>This topic is locked: You can not post in it unless you are a moderator.</div>";
-    } else {}
+      echo '<script type="text/javascript">$(document).ready(function() { $("#post_text").hide(); $("#post_button").hide();});</script>';
+    } else {
+      echo '<script type="text/javascript">$(document).ready(function() { $("#post_text").show(); $("#post_button").show();});</script>';
+    }
   }
   else
   {
