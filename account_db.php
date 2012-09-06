@@ -8,7 +8,7 @@ $pass_salt = 'just_for_demo';
 
 if ($_POST['method'] == 'login')
 {
-  if(!$_POST['user'] || !$_POST['pass']) die('Fill in username and password.');
+  if(!$_POST['user'] || !$_POST['pass']) die('Please fill out all fields.');
   
   $query = $db->prepare("SELECT user_id, user_name, permissions FROM users WHERE ((user_name LIKE ?) AND (user_pass = UNHEX(?)))");
   $query->execute(array($_POST['user'], hash('sha256', $_POST['pass'].$pass_salt)));
@@ -26,28 +26,28 @@ if ($_POST['method'] == 'login')
 }
 else if ($_POST['method'] == 'register') 
 {
-  if(!$_POST['user'] || !$_POST['pass']) die('Fill in username and password.');
+  if(!$_POST['user'] || !$_POST['pass'] || !$_POST['email']) die('Please fill out all fields.');
   if (!preg_match("/^[a-zA-Z0-9_]+$/u",$_POST['user']))
   {
     die('Username can only contain a-z A-Z 0-9 and underscore.'); 
   }
   if (strlen($_POST['user']) >= 16)
   {
-    die('Username shall be less than 16 characters.');
+    die('Usernames can only be 16 characters or less.');
   }
   
   $query = $db->prepare("SELECT user_id FROM users WHERE user_name LIKE ?");
   $query->execute(array($_POST['user']));
   if ($query->rowCount() > 0)
   {
-    die('Username already occupied.');
+    die('That username is already taken. Please choose a different one.');
   }
   
-  $query = $db->prepare("INSERT INTO users(user_name,user_pass) VALUES(?,UNHEX(?))");
-  $query->execute(array($_POST['user'], hash('sha256', $_POST['pass'].$pass_salt)));
+  $query = $db->prepare("INSERT INTO users(user_name,user_pass,user_email) VALUES(?,UNHEX(?),?)");
+  $query->execute(array($_POST['user'], hash('sha256', $_POST['pass'].$pass_salt), $_POST['email']));
   if ($query->rowCount() < 1)
   {
-    die('Username already occupied.');
+    die('That username is already taken. Please choose a different one.');
   }
 
   $_SESSION['user_id'] = $db->lastInsertId();

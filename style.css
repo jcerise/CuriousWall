@@ -49,6 +49,7 @@ textarea                                { height: 260px; width: 100%; outline: n
 #login_form #login_button               { font-size: 18px; padding: 5pt 5pt; }
 #login_form input[type="text"], input[type="password"]
                                         { margin: 0 2pt; width: 200px; }
+#login_form #login_email                { margin-top: 12px; }
 a, a:visited                            { color: #211922; text-decoration: none; outline: none; }
 a img                                   { border: none }
 a:hover, .current                       { color: #e31922; text-shadow: 0 0 1px rgba(255,0,0,0.25); }

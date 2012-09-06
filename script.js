@@ -375,7 +375,7 @@ if (typeof $IS_ACCOUNT_PHP != 'undefined')
     }
     else if ($_GET['a'] == 'register')
     {
-      $.post('account_db.php', {method:'register', user:$('#login_user').val(), pass:$('#login_pass').val()}, function(msg)
+      $.post('account_db.php', {method:'register', user:$('#login_user').val(), email:$('#login_email').val(),  pass:$('#login_pass').val()}, function(msg)
       {
         if (msg == "Success.")
         {

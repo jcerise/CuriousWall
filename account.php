@@ -15,6 +15,7 @@
     } 
     else if ($_GET["a"] == 'register')
     {
+      echo '<input type="text" id="login_email" placeholder="Email" />';
       echo '<span class="button" id="login_button">[Sign up]</span>';
     }
     ?>
