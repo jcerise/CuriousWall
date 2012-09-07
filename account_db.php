@@ -42,9 +42,17 @@ else if ($_POST['method'] == 'register')
   {
     die('That username is already taken. Please choose a different one.');
   }
-  
+
+  //Clean up the username and email, before putting it into the database.
+  require_once 'library/HTMLPurifier.auto.php';
+  $config = HTMLPurifier_Config::createDefault();
+  $purifier = new HTMLPurifier($config);
+
+  $clean_name = $purifier->purify($_POST['user']);
+  $clean_email = $purifier->purify($_POST['email']);
+
   $query = $db->prepare("INSERT INTO users(user_name,user_pass,user_email) VALUES(?,UNHEX(?),?)");
-  $query->execute(array($_POST['user'], hash('sha256', $_POST['pass'].$pass_salt), $_POST['email']));
+  $query->execute(array($clean_name, hash('sha256', $_POST['pass'].$pass_salt), $clean_email));
   if ($query->rowCount() < 1)
   {
     die('That username is already taken. Please choose a different one.');
