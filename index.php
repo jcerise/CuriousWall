@@ -29,7 +29,7 @@ require_once 'header.php';
     </div>
     <div id="post_container">
     <input type="text" id="post_title" style="width:100%; margin-bottom:11px;display:none" placeholder="Title"></input>
-    <textarea id="post_text" style="margin-bottom:13px" placeholder="Text"></textarea>
+    <textarea id="post_text" style="margin-bottom:13px" placeholder="Type your response here. You must be logged in to reply."></textarea>
     <?php /* display mod tools only to mods */ if ((isset($_SESSION['permissions']) && ($_SESSION['permissions'] == 1))) { echo '<div id="stickingswitch" class="radioswitch"><input type="radio" id="nostick" class="inputsticky" name="stick" value="nostick"><label for="nostick">Unstick</label><input type="radio" id="ystick" class="inputsticky" name="stick" value="ystick"><label for="ystick">Stick</label></div>';}else {}?>
     <?php /* locking switch */ if ((isset($_SESSION['permissions']) && ($_SESSION['permissions'] == 1))) { echo '<div id="lockingswitch" class="radioswitch"><input type="radio" id="nolock" class="inputlocked" name="lock" value="nolock"><label for="nolock">Unlock</label><input type="radio" id="ylock" class="inputlocked" name="lock" value="ylock"><label for="ylock">Lock</label></div>';}else {} /**/?>
     <div class="button" id="post_button" style="display:inline"><i class="icon-flag"></i>&nbsp;Post&nbsp;</div>

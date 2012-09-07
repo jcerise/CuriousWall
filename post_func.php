@@ -12,7 +12,7 @@
  * @return String containing either just a URL or a complete image tag
  * @source http://gravatar.com/site/implement/images/php/
  */
-function get_gravatar( $email, $s = 40, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+function get_gravatar( $email, $s = 40, $d = 'mm', $r = 'r', $img = false, $atts = array() ) {
 	$url = 'http://www.gravatar.com/avatar/';
 	$url .= md5( strtolower( trim( $email ) ) );
 	$url .= "?s=$s&d=$d&r=$r";
@@ -30,7 +30,7 @@ function post_get($db, $xtopic, $xbegin)
   if (is_numeric($xtopic) && (is_numeric($xbegin)))
   {
     $limit = 20;
-    $query = $db->prepare("SELECT topic_title, topic_text, topic_replies, topic_by, user_name, permissions, sticky, locked FROM topics LEFT JOIN users ON topic_by = user_id WHERE topic_id = ?");
+    $query = $db->prepare("SELECT topic_title, topic_text, topic_replies, topic_by, user_name, u.user_email, permissions, sticky, locked FROM topics LEFT JOIN users AS u ON topic_by = user_id WHERE topic_id = ?");
     $query->execute(array($xtopic));
     if ($query->rowCount() < 1) {
       echo '<div id="topic_title" name=0 topic_replies=0 begin=0 end=0 limit=0>Unknown Topic</div>';
@@ -58,7 +58,17 @@ function post_get($db, $xtopic, $xbegin)
     
     echo '<div id="topic_title" name='.$xtopic.' topic_replies='.$topic['topic_replies']
       .' begin='.($begin+1).' end='.($end+1).' limit='.$limit.'>';displaytopiclocked($topic['topic_title'],$topic['locked']); echo'</div>';
-    echo '<div id="topic_text">' . "<span class='username' style='font-weight: bold;'>"; theusername($topic['user_name'],$topic['permissions']); echo ":</span> " . $topic['topic_text'].'<div class="postbuttons">'; if ((isset($_SESSION['permissions']) && ($_SESSION['permissions'] == 1))) { echo'<div class="delete topicdelete hover" title="delete">⨯</div>';}echo'</div></div>';
+    echo '<div id="topic_text">';
+    if ($topic['permissions'] == 1) {
+      echo '<div class="username username-admin" style="font-weight: bold;"><img class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
+    }else{
+      echo '<div class="username" style="font-weight: bold;"><img class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
+    }
+    echo '<div class="topic-text">' . $topic['topic_text'].'</div><div class="postbuttons">';
+    if ((isset($_SESSION['permissions']) && ($_SESSION['permissions'] == 1))) {
+      echo'<div class="delete topicdelete hover" title="delete">⨯</div>';
+    }
+    echo'</div></div>';
     echo "<!-- this is just so the radio buttons can change, it isn't actually inputed -->";
     echo "<input type='hidden' name='issticky' id='isstickyhiddenfield' value='" . $topic['sticky'] . "'>";
     echo "<input type='hidden' name='islocked' id='islockedyhiddenfield' value='" . $topic['locked'] . "'>";
@@ -67,7 +77,7 @@ function post_get($db, $xtopic, $xbegin)
     $i = $begin;
     while($row = $query->fetch(PDO::FETCH_ASSOC))
     {
-      echo '<div class="post syntaxhighlighter" name="'.$row['post_id'].'">'
+      echo '<div class="post" name="'.$row['post_id'].'">'
       .'<span class="tcore">'.($i+1)."</span>";
       if (($i == $begin) && ($i != 0)) {
         echo '<span class="tcore tup hover">▲</span>';
@@ -75,14 +85,23 @@ function post_get($db, $xtopic, $xbegin)
       if (($i == $end) && ($i != $topic['topic_replies'] - 1)) {
         echo '<span class="tcore tdown hover">▼</span>';
       }
-      echo '<span class="username" style="font-weight: bold;"><img src="'. get_gravatar($row['user_email']) .'" /></span> ';
+      if ($row['permissions'] == 1) {
+        echo '<div class="username username-admin" style="font-weight: bold;"><img class="grayscale" src="'. get_gravatar($row['user_email']) .'" /></div> ';
+      }else{
+        echo '<div class="username" style="font-weight: bold;"><img class="grayscale" src="'. get_gravatar($row['user_email']) .'" /></div> ';
+      }
       echo '<div class="post-text">'.$row['post_text'].'</div>'.'<div class="postbuttons">';if ((isset($_SESSION['permissions']) && ($_SESSION['permissions'] == 1))) { echo'<div id="'.$row['post_id'].'" class="delete postdelete hover" title="delete">⨯</div>';}echo'</div></div>';
       $i++;
     }
     //Do not display the new post box if the post is locked. Makes no sense to show it a user cant post...
     if ($isitlockeddisplaymessage == true) {
-      echo "<div id='lockedmessage'>This topic is locked: You can not post in it unless you are a moderator.</div>";
-      echo '<script type="text/javascript">$(document).ready(function() { $("#post_text").hide(); $("#post_button").hide();});</script>';
+      //echo "<div id='lockedmessage'>This topic is locked: You can not post in it unless you are a moderator.</div>";
+      echo '<br /><i class="icon-lock"></i> - This topic is locked.';
+      if ((isset($_SESSION['permissions'])) && ($_SESSION['permissions'] == 1)) {
+        //Don't hide the post box, as admins are allowed to post in locked topics.
+      }else{
+        echo '<script type="text/javascript">$(document).ready(function() { $("#post_text").hide(); $("#post_button").hide();});</script>';
+      }
     } else {
       echo '<script type="text/javascript">$(document).ready(function() { $("#post_text").show(); $("#post_button").show();});</script>';
     }
@@ -108,7 +127,7 @@ function post_get($db, $xtopic, $xbegin)
     {
       if ($i == $begin) $first_topic = $row['topic_id'];
       echo '<div class="topic'.(($i == $end)?' last':'').'" name="'.$row['topic_id'].'">'  
-      .'<span class="tcore trep"'.(($row['topic_replies']<=0)?' style="display:none"':'').'>'.($row['topic_replies']).'</span>' . '<span class="stuck">' . ((($row['sticky'])==1)?'(Sticky)':'') . "</span>";
+      .'<span class="tcore trep"'.(($row['topic_replies']<=0)?' style="display:none"':'').'>'.($row['topic_replies']).'</span>' . '<span class="stuck">' . ((($row['sticky'])==1)?'<i class="icon-pushpin"></i>':'') . "</span>";
       if (($i == $begin) && ($i != 0)) {
         echo '<span class="tcore tup hover">▲</span>';
       }

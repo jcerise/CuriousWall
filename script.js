@@ -1,6 +1,14 @@
 $(document).ready(function(){
 //======================================================================== general
 
+$("#post_text").focus(function() {
+  $(this).height(260);
+});
+
+$("#post_text").blur(function() {
+  $(this).height(40);
+});
+
 function hover_a() {
   $(this).addClass('current');
   $(this).find('i').addClass('current');

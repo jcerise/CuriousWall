@@ -45,7 +45,7 @@ else if (($_POST['method'] == 'new') && is_numeric($_POST['topic']))
      else {}
   }
 
-  //$_POST['text'] = nl2br(htmlspecialchars($_POST['text']));
+  $_POST['text'] = nl2br(htmlspecialchars($_POST['text']));
   $_POST['text'] = str_replace("  ", "&nbsp;&nbsp;", $_POST['text']);
 
   if ($_POST['stick'] == 'ystick') {$_POST['stick'] = '1';} else {$_POST['stick'] = '0';}

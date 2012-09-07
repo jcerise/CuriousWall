@@ -24,7 +24,7 @@ else echo $name;
 
 // display if a topic is locked in the topics title
 function displaytopiclocked($topicname,$islocked) {
-if ($islocked == 1) echo $topicname . " [locked]";
+  if ($islocked == 1) echo $topicname . ' <i class="icon-lock"></i>';
 else echo $topicname;
 }
 ?>
