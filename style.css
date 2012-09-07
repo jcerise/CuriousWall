@@ -82,3 +82,10 @@ img.grayscale:hover {
   filter: none;
   -webkit-filter: grayscale(0%);
 }
+
+.site-title {
+  font-size: 30px;
+  position: relative;
+  left: 200px;
+  top: 20px;
+}

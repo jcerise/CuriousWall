@@ -5,7 +5,9 @@ require_once 'header.php';
 <div id="left_container">
   <div id="left" class="box wall">
     <div class="button" id="refresh_button" style="float:right; margin-top:14px; margin-right:-1px"><i class="icon-refresh"></i>&nbsp;Refresh</div>
-    <div class="button" id="prepare_post_button" style="float:right; margin-top:14px; margin-right:16px"><i class="icon-pencil"></i>&nbsp;Create</div>
+    <?php if ((isset($_SESSION['permissions'])) && ($_SESSION['permissions'] == 1)) { ?>
+         <div class="button" id="prepare_post_button" style="float:right; margin-top:14px; margin-right:16px"><i class="icon-pencil"></i>&nbsp;Create</div>
+    <?php } ?>
     <div id="nav">
     </div>
 

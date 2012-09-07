@@ -85,7 +85,7 @@ else if (($_POST['method'] == 'new') && is_numeric($_POST['topic']))
     }else{}
 
     $query = $db->prepare("INSERT INTO posts(post_text,post_date,post_by,post_topic) VALUES(?,NOW(),?,?)");
-    $query->execute(array($_POST['text'], $_SESSION['user_id'], $_POST['topic']));
+    $query->execute(array(nl2br(htmlspecialchars($_POST['text'])), $_SESSION['user_id'], $_POST['topic']));
     if($query->rowCount() < 1)
     {
       die('Cannot reply.');

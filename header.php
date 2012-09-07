@@ -19,4 +19,5 @@
   <link rel="stylesheet" type="text/css" href="font-awesome.css" />
 </head>
 <body onload="prettyPrint()">
+<div class="site-title">Test Title</div>
 <div id="container" class="clearfix">
