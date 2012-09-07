@@ -11,7 +11,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>A Simple Forum</title>
+  <title>Test Title</title>
   <link rel="stylesheet" type="text/css" href="style.css" />
   <link rel="stylesheet" type="text/css" href="css/shCore.css" />
   <link rel="stylesheet" type="text/css" href="css/shThemeDefault.css" />

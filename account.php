@@ -4,7 +4,7 @@
   require_once 'header.php';
 ?>
 <div style="width: 520px; margin: 100px auto; text-shadow: 0 0 1px rgba(0,0,0,0.1);">
-  <div style="margin: 40px 1px; font-size:20px;">A Simple Forum</div>
+  <div style="margin: 40px 1px; font-size:20px;">Sign in/Sign Up</div>
   <div id="login_form">
     <input type="text" id="login_user" placeholder="Username" />
     <input type="password" id="login_pass" placeholder="Password" />
@@ -20,6 +20,8 @@
     }
     ?>
   </div>
+  <div id="email-disclaimer">*Your email is only used to associate your posts with a <a href="http://en.gravatar.com"> Gravatar account</a>, so your avatar will show next to your posts. It is 
+    not made public, and you will never recieve an email from this site.</div>
   <div style="margin: 20px 1px" id="message"></div>
 </div>
 <script> var $IS_ACCOUNT_PHP = true; </script>

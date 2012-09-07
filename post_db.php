@@ -83,9 +83,16 @@ else if (($_POST['method'] == 'new') && is_numeric($_POST['topic']))
         if ((!isset($_SESSION['permissions']) || ($_SESSION['permissions'] == 0))) die("You can not post in a locked topic unless you are a moderator!");
         else {}
     }else{}
+    
+    require_once 'library/HTMLPurifier.auto.php';
+    $config = HTMLPurifier_Config::createDefault();
+    $config->set('HTML.Allowed', 'code[class],p,b,a[href],i,br');
+
+    $purifier = new HTMLPurifier($config);
+    $clean_html = $purifier->purify($_POST['text']);
 
     $query = $db->prepare("INSERT INTO posts(post_text,post_date,post_by,post_topic) VALUES(?,NOW(),?,?)");
-    $query->execute(array(nl2br(htmlspecialchars($_POST['text'])), $_SESSION['user_id'], $_POST['topic']));
+    $query->execute(array(nl2br($clean_html), $_SESSION['user_id'], $_POST['topic']));
     if($query->rowCount() < 1)
     {
       die('Cannot reply.');

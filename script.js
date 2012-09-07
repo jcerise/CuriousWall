@@ -355,6 +355,18 @@ if (typeof $IS_INDEX_PHP != 'undefined')
   })();
 }
 //======================================================================== account.php
+
+//hide the email disclaimer until the user focuses on the email input
+$("#email-disclaimer").hide();
+
+$("#login_email").focus(function() {
+  $("#email-disclaimer").show();
+});
+
+$("#login_email").blur(function() {  
+  $("#email-disclaimer").hide();
+});
+
 if (typeof $IS_ACCOUNT_PHP != 'undefined')
 {
   $(document).keypress(function(e) {

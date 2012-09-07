@@ -7,7 +7,7 @@ body, input, textarea                   { font-family: Calibri,"Lucida Grande","
 #topic_title, #left_title, h1, h2, h3, h4, h5, h6
                                         { font-family: "Hoefler Text",Cambria,Utopia,"Liberation Serif","Nimbus Roman No9 L",Times,"Times New Roman", '宋体', sans-serif }
 /* PAGE */
-#container                              { position: relative; margin: 20px auto; padding: 0 20px; min-width: 980px; max-width: 1150px; }
+#container                              { position: relative; margin: 20px auto; padding: 0 20px; min-width: 980px; max-width: 100%; }
 #left, #mid                             { display: none }
 #left_container                         { float: right; width: 38%; }
 #mid_container                          { padding-right: 20px; margin-right: 38%; margin-left: 0px; }
@@ -86,6 +86,11 @@ img.grayscale:hover {
 .site-title {
   font-size: 30px;
   position: relative;
-  left: 200px;
+  left: 15px;
   top: 20px;
+}
+
+#email-disclaimer {
+  padding-top: 20px;
+  font-size: 13px;
 }
