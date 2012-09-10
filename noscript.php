@@ -1,10 +1,4 @@
 <?php
-
-//echo "hello, it looks like you don't have javascript enabled. You should do something about that :)";
-
-?>
-
-<?php
   require_once 'connect.php';require_once 'post_func.php'; 
   if (isset($SHALL_LOG_OUT))
   {
@@ -52,7 +46,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Test Title</title>
+  <title><?php get_title($db, $getopic, $getpagination); ?></title>
   <link rel="stylesheet" type="text/css" href="style.css" />
   <link rel="stylesheet" type="text/css" href="font-awesome.css" />
 </head>

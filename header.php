@@ -10,6 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="fragment" content="!">
   <meta charset="UTF-8">
   <title>Test Title</title>
   <link rel="stylesheet" type="text/css" href="style.css" />

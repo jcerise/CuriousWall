@@ -25,6 +25,19 @@ function get_gravatar( $email, $s = 40, $d = 'mm', $r = 'r', $img = false, $atts
 	return $url;
 }
 
+
+function get_title($db, $xtopic, $xbegin){
+  if (is_numeric($xtopic) && (is_numeric($xbegin))) {
+    $query = $db->prepare("SELECT topic_title FROM topics WHERE topic_id = ?");
+    $query->execute(array($xtopic));
+    if ($query->rowCount() < 1) {
+     die(); 
+    }
+    $topic = $query->fetch(PDO::FETCH_ASSOC);
+    echo $topic['topic_title'];
+  }
+}
+  
 function post_get($db, $xtopic, $xbegin)
 {
   if (is_numeric($xtopic) && (is_numeric($xbegin)))
