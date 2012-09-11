@@ -43,7 +43,7 @@ function post_get($db, $xtopic, $xbegin)
   if (is_numeric($xtopic) && (is_numeric($xbegin)))
   {
     $limit = 20;
-    $query = $db->prepare("SELECT topic_title, topic_text, topic_replies, topic_by, user_name, u.user_email, permissions, sticky, locked FROM topics LEFT JOIN users AS u ON topic_by = user_id WHERE topic_id = ?");
+    $query = $db->prepare("SELECT topic_id, topic_title, topic_text, topic_replies, topic_by, user_name, u.user_email, u.user_id, permissions, sticky, locked FROM topics LEFT JOIN users AS u ON topic_by = user_id WHERE topic_id = ?");
     $query->execute(array($xtopic));
     if ($query->rowCount() < 1) {
       echo '<div id="topic_title" name=0 topic_replies=0 begin=0 end=0 limit=0>Unknown Topic</div>';
@@ -73,9 +73,11 @@ function post_get($db, $xtopic, $xbegin)
       .' begin='.($begin+1).' end='.($end+1).' limit='.$limit.'>';displaytopiclocked($topic['topic_title'],$topic['locked']); echo'</div>';
     echo '<div id="topic_text">';
     if ($topic['permissions'] == 1) {
-      echo '<div class="username username-admin" style="font-weight: bold;"><img class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
+      echo '<div class="username username-admin topic '.$topic['user_name'].' #'.$topic['topic_id'].'" style="font-weight: bold;">';
+      echo '<img title="'.$topic['user_name'].' #'.$topic['topic_id'].'" class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
     }else{
-      echo '<div class="username" style="font-weight: bold;"><img class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
+      echo '<div class="username topic '.$topic['user_name'].' #'.$topic['topic_id'].'" style="font-weight: bold;">';
+      echo '<img title="'.$topic['user_name'].' #'.$topic['topic_id'].'" class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
     }
     echo '<div class="topic-text">' . $topic['topic_text'].'</div><div class="postbuttons">';
     if ((isset($_SESSION['permissions']) && ($_SESSION['permissions'] == 1))) {
@@ -99,7 +101,7 @@ function post_get($db, $xtopic, $xbegin)
         echo '<span class="tcore tdown hover">▼</span>';
       }
       if ($row['permissions'] == 1) {
-        echo '<div class="username username-admin" style="font-weight: bold;"><img class="grayscale" src="'. get_gravatar($row['user_email']) .'" /></div> ';
+        echo '<div class="username username-admin post-reply '. $row['user_id'].'-'.$row['post_id'].'" style="font-weight: bold;"><img class="grayscale" src="'. get_gravatar($row['user_email']) .'" /></div> ';
       }else{
         echo '<div class="username" style="font-weight: bold;"><img class="grayscale" src="'. get_gravatar($row['user_email']) .'" /></div> ';
       }
