@@ -90,10 +90,13 @@ else if (($_POST['method'] == 'new') && is_numeric($_POST['topic']))
 
     $purifier = new HTMLPurifier($config);
     $clean_html = $purifier->purify($_POST['text']);
-    $clean_html = replace_post_references($clean_html);
+    $parsed_html = replace_post_references($clean_html);
+    
+    require_once 'library/UrlLinker/UrlLinker.php';
+    $parsed_html = htmlEscapeAndLinkUrls($parsed_html);
 
     $query = $db->prepare("INSERT INTO posts(post_text,post_date,post_by,post_topic) VALUES(?,NOW(),?,?)");
-    $query->execute(array(nl2br($clean_html), $_SESSION['user_id'], $_POST['topic']));
+    $query->execute(array(nl2br($parsed_html), $_SESSION['user_id'], $_POST['topic']));
     if($query->rowCount() < 1)
     {
       die('Cannot reply.');
