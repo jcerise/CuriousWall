@@ -1,11 +1,12 @@
 <?php
+//Check to see if Google is accessing this URL using escaped fragments
 if (isset($_GET['_escaped_fragment_'])) {
+  //Load the content without javascript
   if ($_GET['_escaped_fragment_']){require_once 'noscript.php';die;}
     else {require_once 'header.php';}
 } else {
   require_once 'header.php';
 }
-//die();
 ?>
 <div id="left_container">
   <div id="left" class="box wall">
@@ -20,7 +21,7 @@ if (isset($_GET['_escaped_fragment_'])) {
     <?php
     if ((isset($_SESSION['user_name'])) && (isset($_SESSION['permissions']))) {
       echo '<i class="icon-user"></i>&nbsp;'; theusername($_SESSION['user_name'],$_SESSION['permissions']);
-        echo '<a href = "account.php?a=logout" class="hover" style="margin-left:26px"><i class="icon-signout"></i>&nbsp;Sign out</a>';}
+      echo '<a href = "account.php?a=logout" class="hover" style="margin-left:26px"><i class="icon-signout"></i>&nbsp;Sign out</a>';}
     else {
       echo '<a href = "account.php?a=login" class="hover"><i class="icon-signin"></i>&nbsp;Sign in</a>';
       echo '<a href = "account.php?a=register" class="hover" style="margin-left: 18px"><i class="icon-trophy"></i>&nbsp;Sign up</a>';
@@ -47,8 +48,5 @@ if (isset($_GET['_escaped_fragment_'])) {
 </div>
 <script> var $IS_INDEX_PHP = true; </script>
 <?php
-    
   require_once 'footer.php'; 
-
-
 ?>

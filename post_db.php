@@ -90,6 +90,7 @@ else if (($_POST['method'] == 'new') && is_numeric($_POST['topic']))
 
     $purifier = new HTMLPurifier($config);
     $clean_html = $purifier->purify($_POST['text']);
+    $clean_html = replace_post_references($clean_html);
 
     $query = $db->prepare("INSERT INTO posts(post_text,post_date,post_by,post_topic) VALUES(?,NOW(),?,?)");
     $query->execute(array(nl2br($clean_html), $_SESSION['user_id'], $_POST['topic']));
@@ -105,4 +106,13 @@ else if (($_POST['method'] == 'new') && is_numeric($_POST['topic']))
 
   die('SUCCESS'.$_POST['topic']);
 }
+
+function post_reference_callback($match) {
+    return '<span class="hover pref">' . $match[0] . '</span>';
+}
+
+function replace_post_references($html) {
+    return preg_replace_callback("/\#[0-9]{1,5}/",'post_reference_callback', $html);
+}
+
 ?>

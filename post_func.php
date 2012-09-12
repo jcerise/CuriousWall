@@ -25,7 +25,13 @@ function get_gravatar( $email, $s = 40, $d = 'mm', $r = 'r', $img = false, $atts
 	return $url;
 }
 
-
+/**
+ * Prints out the title of the supplied topic
+ * 
+ * @param type $db DB Connection to use
+ * @param type $xtopic The topic to get the title of 
+ * @param type $xbegin 
+ */
 function get_title($db, $xtopic, $xbegin){
   if (is_numeric($xtopic) && (is_numeric($xbegin))) {
     $query = $db->prepare("SELECT topic_title FROM topics WHERE topic_id = ?");
@@ -37,7 +43,15 @@ function get_title($db, $xtopic, $xbegin){
     echo $topic['topic_title'];
   }
 }
-  
+
+/**
+ * Prints out the selected topic's content
+ * 
+ * @param type $db
+ * @param type $xtopic
+ * @param type $xbegin
+ * @return type 
+ */
 function post_get($db, $xtopic, $xbegin)
 {
   if (is_numeric($xtopic) && (is_numeric($xbegin)))
@@ -73,11 +87,11 @@ function post_get($db, $xtopic, $xbegin)
       .' begin='.($begin+1).' end='.($end+1).' limit='.$limit.'>';displaytopiclocked($topic['topic_title'],$topic['locked']); echo'</div>';
     echo '<div id="topic_text">';
     if ($topic['permissions'] == 1) {
-      echo '<div class="username username-admin topic '.$topic['user_name'].' #'.$topic['topic_id'].'" style="font-weight: bold;">';
-      echo '<img title="'.$topic['user_name'].' #'.$topic['topic_id'].'" class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
+      echo '<div class="username username-admin topic '.$topic['user_name'].' #t'.$topic['topic_id'].'" style="font-weight: bold;">';
+      echo '<img title="'.$topic['user_name'].' #t'.$topic['topic_id'].'" class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
     }else{
-      echo '<div class="username topic '.$topic['user_name'].' #'.$topic['topic_id'].'" style="font-weight: bold;">';
-      echo '<img title="'.$topic['user_name'].' #'.$topic['topic_id'].'" class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
+      echo '<div class="username topic '.$topic['user_name'].' #t'.$topic['topic_id'].'" style="font-weight: bold;">';
+      echo '<img title="'.$topic['user_name'].' #t'.$topic['topic_id'].'" class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
     }
     echo '<div class="topic-text">' . $topic['topic_text'].'</div><div class="postbuttons">';
     if ((isset($_SESSION['permissions']) && ($_SESSION['permissions'] == 1))) {
@@ -112,10 +126,9 @@ function post_get($db, $xtopic, $xbegin)
     }
     //Do not display the new post box if the post is locked. Makes no sense to show it a user cant post...
     if ($isitlockeddisplaymessage == true) {
-      //echo "<div id='lockedmessage'>This topic is locked: You can not post in it unless you are a moderator.</div>";
       echo '<br /><i class="icon-lock"></i> - This topic is locked.';
       if ((isset($_SESSION['permissions'])) && ($_SESSION['permissions'] == 1)) {
-        //Don't hide the post box, as admins are allowed to post in locked topics.
+        //The user is an admin, don't hide the post box, as admins are allowed to post in locked topics.
       }else{
         echo '<script type="text/javascript">$(document).ready(function() { $("#post_text").hide(); $("#post_button").hide();});</script>';
       }

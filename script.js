@@ -21,6 +21,22 @@ function hover_b() {
 $('.button').hover(hover_a, hover_b);
 $('.hover').hover(hover_a, hover_b);
 
+//Since our posts are loaded after the intial jquery, we need to use the 'live'
+//method to apply to later loaded elements.
+$(".post .post-text .hover").live({
+        mouseenter:
+           function()
+           {
+                $(this).addClass('current');
+           },
+        mouseleave:
+           function()
+           {
+                $(this).removeClass('current');
+           }
+       }
+    );
+
 var $_GET = {};
 document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
   function decode(s) {
