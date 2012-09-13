@@ -44,6 +44,18 @@ function get_title($db, $xtopic, $xbegin){
   }
 }
 
+function get_post($db, $post_id){
+  if (is_numeric($post_id)) {
+    $query = $db->prepare("SELECT post_text FROM posts WHERE post_id = ?");
+    $query->execute(array($post_id));
+    if ($query->rowCount() < 1) {
+     echo "No such post ID...";
+    }
+    $post = $query->fetch(PDO::FETCH_ASSOC);
+    echo $post['post_text'];
+  }
+}
+
 /**
  * Prints out the selected topic's content
  * 

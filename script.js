@@ -37,18 +37,50 @@ $(".post .post-text .hover").live({
        }
     );
 
-$(".post .post-text span.pref").live("click", function() {
+/*
+ * Set up the # reference spans with a click handler that loads up the 
+ * referenced post.
+ */
+$(".post .post-text span.pref").each().live("click", function() {
+    //Get the post reference number from the span
     var prefClass = $(this).text();
+
+    //Get just the number without the leading #
+    var prefNum = prefClass.split('#');
+    prefNum = prefNum[1];
+
+    //Get the post number, so we can jail all actions to just this post
+    var postNum = $(this).parent().parent().attr('name');
+
+    //Check to see if this link is already actively showing the ref. post
     if ($(this).hasClass("active-" + prefClass)) {
     }else{
+        //If its not active, set it to active
         $(this).addClass("active-"+prefClass);
-        $(this).after('<div class="pref-' + prefClass + '">Post Reference ' + prefClass + '<div class="close ' + prefClass + ' hover">Close</div></div>');
+
+        //Add the div to show the reference, and close link
+        $(this).after('<div id="pref-' + prefNum + '-' + postNum + '" class="pref-' +
+             prefNum + ' expanded-pref"><div class="close icon-remove-sign ' +
+             prefClass + ' hover">Close</div></div>');
+
+        //And finally, load up the post content from the correct PHP function
+        $.post('post_db.php', {method:"get", post_id:prefNum}, function(data) {
+            $("#pref-" + prefNum + "-" + postNum).prepend(data);
+        });
     }   
 });
 
+/*
+ * Handle the close link in the post reference div
+ */
 $(".post .post-text .close").each().live("click", function() {
+    //Get the correct class, so we can remove the correct instance of this ref.
     var classList = $(this).attr('class').split(/\s+/);
-    $(this).parent().siblings().removeClass("active-" + classList[1]);
+
+    //Mark the parent span as in-active, so it may be clicked again
+    $(this).parent().siblings().removeClass("active-" + classList[2]);
+
+    //Finally, remove the ref. div.
     $(this).parent().remove(); 
 });
 

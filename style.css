@@ -94,3 +94,14 @@ img.grayscale:hover {
   padding-top: 20px;
   font-size: 13px;
 }
+
+.expanded-pref {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.close {
+  text-align: right;
+}

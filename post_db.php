@@ -7,6 +7,12 @@ if (isset($_POST['text'])) $_POST['text'] = trim($_POST['text']);
 
 if ($_POST['method'] == 'get')
 {
+    
+  if (isset($_POST['post_id'])) {
+      get_post($db, $_POST['post_id']);
+      die();
+  }
+    
   if (!isset($_POST['topic'])) $_POST['topic'] = '';
   if (!isset($_POST['begin'])) $_POST['begin'] = '';
   post_get($db, $_POST['topic'], $_POST['begin']); die();
