@@ -28,8 +28,8 @@ body, input, textarea                   { font-family: Calibri,"Lucida Grande","
 #nav .topic p                           { cursor: pointer }
 #post_title                             { height: 38px }
 .tcore                                  { font-size: 13px; line-height: 34px; color: #999; position: absolute; top: 6px; right: 0px; width: 34px; overflow: hidden; text-align: center; cursor: default; }
-.tup                                    { top: -20px; bottom: auto; color: #999; }
-.tdown                                  { top: auto; bottom: -20px; color: #999; }
+.tup                                    { top: -10px; bottom: auto; color: #999; }
+.tdown                                  { top: auto; bottom: 0px; color: #999; }
 .trep                                   { }
 .same                                   { color: #000 }
 .admin                                  { color: #e00 }
@@ -104,4 +104,24 @@ img.grayscale:hover {
 
 .close {
   text-align: right;
+}
+
+.post-functions {
+    margin-left: 50px;
+    border-bottom: 1px dotted grey;
+    height: 27px;
+}
+
+.user-reply {
+    float: left;
+    margin-left: 15px;
+}
+.reply {
+    float: left;
+}
+
+.icon-user::before,
+.icon-remove-sign::before,
+.icon-comment::before {
+    padding-right: 5px;
 }

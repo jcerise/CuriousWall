@@ -121,16 +121,16 @@ function post_get($db, $xtopic, $xbegin)
       echo '<div class="post" name="'.$row['post_id'].'">'
       .'<span class="tcore">'.($i+1)."</span>";
       if (($i == $begin) && ($i != 0)) {
-        echo '<span class="tcore tup hover">▲</span>';
+        echo '<span title="Expand previous posts" class="tcore tup hover">▲</span>';
       }
       if (($i == $end) && ($i != $topic['topic_replies'] - 1)) {
-        echo '<span class="tcore tdown hover">▼</span>';
+        echo '<span title="Expand newer posts" class="tcore tdown hover">▼</span>';
       }
       if ($row['permissions'] == 1) {
-        echo '<div class="username username-admin post-reply "'. $row['user_name'].' #'.$row['post_id'].'" style="font-weight: bold;">';
+        echo '<div class="#' .$row['post_id'] . ' ' .$row['user_name'] . ' username username-admin post-reply" style="font-weight: bold;">';
         echo '<img title="'.$row['user_name'].' #'.$row['post_id'].'" class="grayscale" src="'. get_gravatar($row['user_email']) .'" /></div> ';
       }else{
-        echo '<div class="username post-reply '.$row['user_name'].' #'.$row['post_id'].'" style="font-weight: bold;">';
+        echo '<div class="#' .$row['post_id'] . ' ' .$row['user_name'].' username post-reply" style="font-weight: bold;">';
         echo '<img title="'.$row['user_name'].' #'.$row['post_id'].'" class="grayscale" src="'. get_gravatar($row['user_email']) .'" /></div> ';
       }
       echo '<div class="post-text">'.$row['post_text'].'</div>'.'<div class="postbuttons">';if ((isset($_SESSION['permissions']) && ($_SESSION['permissions'] == 1))) { echo'<div id="'.$row['post_id'].'" class="delete postdelete hover" title="delete">⨯</div>';}echo'</div></div>';

@@ -23,7 +23,7 @@ $('.hover').hover(hover_a, hover_b);
 
 //Since our posts are loaded after the intial jquery, we need to use the 'live'
 //method to apply to later loaded elements.
-$(".post .post-text .hover").live({
+$(".post .post-text .hover, .reply, .user-reply").live({
         mouseenter:
            function()
            {
@@ -82,6 +82,28 @@ $(".post .post-text .close").each().live("click", function() {
 
     //Finally, remove the ref. div.
     $(this).parent().remove(); 
+});
+
+$(".post .username").live('click', function() {
+    if ($(this).hasClass('active')) {
+        $(this).removeClass('active');
+        $(this).siblings(".post-functions").remove();
+    }else{
+        $(this).addClass('active');
+        var classes = $(this).attr('class').split(/\s+/);
+        var user = classes[1];
+        var prefClass = classes[0];
+        $(this).after('<div class="post-functions">' +
+            '<div class="' + prefClass + ' reply hover icon-comment" title="Reply to post ' + prefClass +'">Reply: ' + prefClass + '</div>' +
+            '<div class="user-reply hover icon-user">' + user + '</div>');
+    }
+});
+
+$(".reply").live('click', function() {
+    var prefClass = $(this).attr('class').split(/\s+/);
+    prefClass = prefClass[0];
+    $("#post_text").val($("#post_text").val() + prefClass + '\n');
+    $("#post_text").focus();
 });
 
 var $_GET = {};
