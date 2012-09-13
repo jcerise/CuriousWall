@@ -37,6 +37,21 @@ $(".post .post-text .hover").live({
        }
     );
 
+$(".post .post-text span.pref").live("click", function() {
+    var prefClass = $(this).text();
+    if ($(this).hasClass("active-" + prefClass)) {
+    }else{
+        $(this).addClass("active-"+prefClass);
+        $(this).after('<div class="pref-' + prefClass + '">Post Reference ' + prefClass + '<div class="close ' + prefClass + ' hover">Close</div></div>');
+    }   
+});
+
+$(".post .post-text .close").each().live("click", function() {
+    var classList = $(this).attr('class').split(/\s+/);
+    $(this).parent().siblings().removeClass("active-" + classList[1]);
+    $(this).parent().remove(); 
+});
+
 var $_GET = {};
 document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
   function decode(s) {
@@ -257,11 +272,6 @@ if (typeof $IS_INDEX_PHP != 'undefined')
       updateText(msg);
     });        
   }
-
-  /*function delete() {
-  var reallydelete = confirm('Are you sure you want to delete that post/topic? If you do, then you will not be able to recover the post, and if you delete a topic, all of the accompanying posts will disappear.');
-
-  }*/
   
   function topicShift($dir) {
     var $begin = 0;

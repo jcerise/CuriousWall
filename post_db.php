@@ -92,6 +92,7 @@ else if (($_POST['method'] == 'new') && is_numeric($_POST['topic']))
     $clean_html = $purifier->purify($_POST['text']);
     $parsed_html = replace_post_references($clean_html);
     
+    //Parse any urls found and turn them into links
     require_once 'library/UrlLinker/UrlLinker.php';
     $parsed_html = htmlEscapeAndLinkUrls($parsed_html);
 
@@ -111,7 +112,7 @@ else if (($_POST['method'] == 'new') && is_numeric($_POST['topic']))
 }
 
 function post_reference_callback($match) {
-    return '<span class="hover pref">' . $match[0] . '</span>';
+    return '<span class="hover pref ' . $match[0] . '">' . $match[0] . '</span>';
 }
 
 function replace_post_references($html) {
