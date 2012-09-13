@@ -3,3 +3,6 @@ Import test.sql to MySQL. Then edit connect.php and you are ready to go.
 License: MIT.
 
 Feel free to contribute. Probably this open-source version can be a featherlite forum suitable for individuals and small groups.
+
+This fork of Curious Wall is being developed less with forums in mind, and more with single user blogs as the focus. The major difference between this
+fork and the primary version is that only moderators can post new topics (although any registered user may post un-moderated comments).

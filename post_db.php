@@ -66,8 +66,13 @@ else if (($_POST['method'] == 'new') && is_numeric($_POST['topic']))
 
   if ($_POST['topic'] < 0)
   {
+      
+    //Parse any urls found and turn them into links
+    require_once 'library/UrlLinker/UrlLinker.php';
+    $parsed_html = htmlEscapeAndLinkUrls($_POST['text']);
+      
     $query = $db->prepare("INSERT INTO topics(topic_title,topic_text,topic_date,topic_by,topic_score,sticky,locked) VALUES(?,?,NOW(),?,UNIX_TIMESTAMP((NOW())),?,?)");
-    $query->execute(array($_POST['title'], $_POST['text'], $_SESSION['user_id'],$_POST['stick'],$_POST['lock']));
+    $query->execute(array($_POST['title'], $parsed_html, $_SESSION['user_id'],$_POST['stick'],$_POST['lock']));
     if($query->rowCount() < 1)
     {
       die('Cannot create topic.');

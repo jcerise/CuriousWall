@@ -84,6 +84,10 @@ $(".post .post-text .close").each().live("click", function() {
     $(this).parent().remove(); 
 });
 
+/*
+ * Display post tools when a user clicks on a user avatar. Remove them when
+ * clicking the same avatar again
+ */
 $(".post .username").live('click', function() {
     if ($(this).hasClass('active')) {
         $(this).removeClass('active');
@@ -99,6 +103,10 @@ $(".post .username").live('click', function() {
     }
 });
 
+/*
+ * Put a post reference into the post_text textarea upon clicking the reply link
+ * in the post tools for a given post. 
+ */
 $(".reply").live('click', function() {
     var prefClass = $(this).attr('class').split(/\s+/);
     prefClass = prefClass[0];
