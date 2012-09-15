@@ -99,8 +99,8 @@ function post_get($db, $xtopic, $xbegin)
       .' begin='.($begin+1).' end='.($end+1).' limit='.$limit.'>';displaytopiclocked($topic['topic_title'],$topic['locked']); echo'</div>';
     echo '<div id="topic_text">';
     if ($topic['permissions'] == 1) {
-      echo '<div class="username username-admin topic '.$topic['user_name'].' #t'.$topic['topic_id'].'" style="font-weight: bold;">';
-      echo '<img title="'.$topic['user_name'].' #t'.$topic['topic_id'].'" class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
+      echo '<div class="username username-admin topic '.$topic['user_name'].'♦ #t'.$topic['topic_id'].'" style="font-weight: bold;">';
+      echo '<img title="'.$topic['user_name'].'♦ #t'.$topic['topic_id'].'" class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
     }else{
       echo '<div class="username topic '.$topic['user_name'].' #t'.$topic['topic_id'].'" style="font-weight: bold;">';
       echo '<img title="'.$topic['user_name'].' #t'.$topic['topic_id'].'" class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
@@ -127,8 +127,8 @@ function post_get($db, $xtopic, $xbegin)
         echo '<span title="Expand newer posts" class="tcore tdown hover">▼</span>';
       }
       if ($row['permissions'] == 1) {
-        echo '<div class="#' .$row['post_id'] . ' ' .$row['user_name'] . ' username username-admin post-reply" style="font-weight: bold;">';
-        echo '<img title="'.$row['user_name'].' #'.$row['post_id'].'" class="grayscale" src="'. get_gravatar($row['user_email']) .'" /></div> ';
+        echo '<div class="#' .$row['post_id'] . ' ' .$row['user_name'] . '♦ username username-admin post-reply" style="font-weight: bold;">';
+        echo '<img title="'.$row['user_name'].'♦ #'.$row['post_id'].'" class="grayscale" src="'. get_gravatar($row['user_email']) .'" /></div> ';
       }else{
         echo '<div class="#' .$row['post_id'] . ' ' .$row['user_name'].' username post-reply" style="font-weight: bold;">';
         echo '<img title="'.$row['user_name'].' #'.$row['post_id'].'" class="grayscale" src="'. get_gravatar($row['user_email']) .'" /></div> ';
