@@ -32,6 +32,19 @@ function get_gravatar( $email, $s = 40, $d = 'mm', $r = 'r', $img = false, $atts
  * @param type $xtopic The topic to get the title of 
  * @param type $xbegin 
  */
+function print_admin_functions(){
+  if ((isset($_SESSION['permissions']) && ($_SESSION['permissions'] == 1))) {
+    echo '<div class="delete-' . $_POST['topic_id'] .' topicdelete hover icon-remove-sign" title="delete">delete topic</div>';
+  }
+}
+
+/**
+ * Prints out the title of the supplied topic
+ * 
+ * @param type $db DB Connection to use
+ * @param type $xtopic The topic to get the title of 
+ * @param type $xbegin 
+ */
 function get_title($db, $xtopic, $xbegin){
   if (is_numeric($xtopic) && (is_numeric($xbegin))) {
     $query = $db->prepare("SELECT topic_title FROM topics WHERE topic_id = ?");
@@ -99,17 +112,15 @@ function post_get($db, $xtopic, $xbegin)
       .' begin='.($begin+1).' end='.($end+1).' limit='.$limit.'>';displaytopiclocked($topic['topic_title'],$topic['locked']); echo'</div>';
     echo '<div id="topic_text">';
     if ($topic['permissions'] == 1) {
-      echo '<div class="username username-admin topic '.$topic['user_name'].'♦ #t'.$topic['topic_id'].'" style="font-weight: bold;">';
+      echo '<div class="#'.$topic['topic_id'].' username '.$topic['user_name'].'♦ username-admin topic" style="font-weight: bold;">';
       echo '<img title="'.$topic['user_name'].'♦ #t'.$topic['topic_id'].'" class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
     }else{
-      echo '<div class="username topic '.$topic['user_name'].' #t'.$topic['topic_id'].'" style="font-weight: bold;">';
+      echo '<div class="#t'.$topic['topic_id'].' username topic '.$topic['user_name'].'" style="font-weight: bold;">';
       echo '<img title="'.$topic['user_name'].' #t'.$topic['topic_id'].'" class="grayscale" src="' . get_gravatar($topic['user_email']) . '" /></div>';
     }
-    echo '<div class="topic-text">' . $topic['topic_text'].'</div><div class="postbuttons">';
-    if ((isset($_SESSION['permissions']) && ($_SESSION['permissions'] == 1))) {
-      echo'<div class="delete topicdelete hover" title="delete">⨯</div>';
-    }
-    echo'</div></div>';
+    echo '<div class="topic-text">' . $topic['topic_text'].'</div>';
+    
+    echo'</div>';
     echo "<!-- this is just so the radio buttons can change, it isn't actually inputed -->";
     echo "<input type='hidden' name='issticky' id='isstickyhiddenfield' value='" . $topic['sticky'] . "'>";
     echo "<input type='hidden' name='islocked' id='islockedyhiddenfield' value='" . $topic['locked'] . "'>";

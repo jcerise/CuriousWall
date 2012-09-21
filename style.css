@@ -117,8 +117,14 @@ img.grayscale:hover {
     float: left;
     margin-left: 15px;
 }
+.reply-topic,
 .reply {
     float: left;
+}
+
+.topicdelete {
+    float: left;
+    padding-left: 20px;
 }
 
 .icon-user::before,

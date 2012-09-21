@@ -7,6 +7,11 @@ if (isset($_POST['text'])) $_POST['text'] = trim($_POST['text']);
 
 if ($_POST['method'] == 'get')
 {
+  
+  if (isset($_POST['get_admin'])) {
+      print_admin_functions();
+      die();
+  }  
     
   if (isset($_POST['post_id'])) {
       get_post($db, $_POST['post_id']);

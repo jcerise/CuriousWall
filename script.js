@@ -23,7 +23,7 @@ $('.hover').hover(hover_a, hover_b);
 
 //Since our posts are loaded after the intial jquery, we need to use the 'live'
 //method to apply to later loaded elements.
-$(".post .post-text .hover, .reply, .user-reply").live({
+$(".post .post-text .hover, .reply, .reply-topic, .user-reply, .topicdelete").live({
         mouseenter:
            function()
            {
@@ -85,6 +85,32 @@ $(".post .post-text .close").each().live("click", function() {
 });
 
 /*
+ * Display post tools when a user clicks on a user avatar in the topic. Remove 
+ * them when clicking the same avatar again.
+ */
+$("#topic_text .username").live('click', function() {
+    if ($(this).hasClass('active')) {
+        $(this).removeClass('active');
+        $(this).siblings(".post-functions").remove();
+    }else{
+        $(this).addClass('active');
+        var classes = $(this).attr('class').split(/\s+/);
+        var user = classes[2];
+        var prefClass = classes[0];
+        prefClass = prefClass.split('#');
+        $(this).after('<div class="post-functions">' +
+            '<div class="reply-topic hover icon-comment" title="Reply to topic ' + prefClass[1] +'">Reply to topic</div>' +
+            '<div class="user-reply hover icon-user">' + user + '</div>' + 
+            '<div class="admin-functions"> | </div>');
+        //Add in the delete button if the user is an admin
+        $.post('post_db.php', {method:"get", get_admin:1, topic_id:prefClass[1]}, function(data) {
+            $(".admin-functions").html(data);
+        });
+    }
+    return false;
+});
+
+/*
  * Display post tools when a user clicks on a user avatar. Remove them when
  * clicking the same avatar again
  */
@@ -105,13 +131,18 @@ $(".post .username").live('click', function() {
 
 /*
  * Put a post reference into the post_text textarea upon clicking the reply link
- * in the post tools for a given post. 
+ * in the post tools for a given post. If reply was clicked from the topic, 
+ * simply add focus to the post_text textarea.
  */
-$(".reply").live('click', function() {
+$(".reply, .reply-topic").live('click', function() {
     var prefClass = $(this).attr('class').split(/\s+/);
     prefClass = prefClass[0];
-    $("#post_text").val($("#post_text").val() + prefClass + '\n');
-    $("#post_text").focus();
+    if (prefClass == 'reply-topic') {
+        $("#post_text").focus();
+    }else{
+        $("#post_text").val($("#post_text").val() + prefClass + '\n');
+        $("#post_text").focus();
+    }
 });
 
 var $_GET = {};
@@ -251,14 +282,17 @@ if (typeof $IS_INDEX_PHP != 'undefined')
     $("#text_container .tdown").mousedown(function(){replyShift(+1); return false});
     $("#text_container .tdown").hover(hover_a, hover_b);
     var $this_topic = $("#topic_title").attr('name');
-//    var $this_reply = $("#text_container").find(".tcore:eq(0)").text();
-    $(".topicdelete").mousedown(function(){
+
+    $(".post-functions .admin-functions .delete-"+$this_topic).live("click", function(e){
 	var reallydelete = confirm('Are you sure you want to delete that topic? If you do, then you will not be able to recover the topic, and all of the accompanying posts will be deleted too.');
 	if (reallydelete) {
-                $.post('delete.php', {method:'post', id:$this_topic,postortopic:'topic'}, function(msg){alert(msg);refresh();});//, function(msg)
-//		refresh();
-		}
-	});
+                $.post('delete.php', {method:'post', id:$this_topic,postortopic:'topic'}, function(msg){
+                    alert(msg);
+                    refresh();
+                });   
+        }
+    });
+
     $(".postdelete").mousedown(function(){
 //        alert($(this).attr('title'));
 	var reallydelete = confirm('Are you sure you want to delete that post? If you do, then you will not be able to recover the post.');
